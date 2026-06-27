@@ -1,6 +1,0 @@
-{
-  "name": "Acoola Trims Manager",
-  "description": "Order booking entry, production job cards, buyer aging ledger, corporate staff payroll slips, commercial invoices, and export LC documents builder for Acoola Trims Corporation.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
