@@ -1,0 +1,457 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,950;1,300;1,400;1,500;1,600;1,700;1,800;1,950&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Poppins", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-roboto: "Roboto", sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+  }
+}
+
+.justify-left-last,
+[id^="lc-print-sheet-"] .leading-relaxed,
+[id^="pdf-page-"] .leading-relaxed,
+[id^="lc-print-sheet-"] .italic,
+[id^="pdf-page-"] .italic,
+#price-quotation-a4-preview p {
+  text-align: justify;
+  text-align-last: left;
+  text-justify: inter-word;
+}
+
+/* Force all internal text and box backgrounds to transparent so the watermark logo is fully visible */
+[id^="lc-print-sheet-"] *:not([id^="lc-print-sheet-"]):not(.lc-line-marker):not(.lc-line-marker-1):not(.lc-line-marker-2),
+[id^="pdf-page-"] *:not([id^="pdf-page-"]):not(.lc-line-marker):not(.lc-line-marker-1):not(.lc-line-marker-2) {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* Ensure colored header lines remain vibrant as specified by company themes */
+.lc-line-marker-1 {
+  background-color: var(--line-1-color, #007D46) !important;
+}
+.lc-line-marker-2 {
+  background-color: var(--line-2-color, #ed1c24) !important;
+}
+
+/* Force all elements inside LC print sheets and pdf pages to use Roboto font and 10pt size (except Document Name title) and make everything uppercase */
+[id^="lc-print-sheet-"] *, 
+[id^="pdf-page-"] * {
+  font-family: 'Roboto', sans-serif !important;
+  text-transform: uppercase !important;
+}
+
+[id^="lc-print-sheet-"] *:not(.lc-document-title-header):not(.truck-challan-title):not(.lc-company-logo-img):not(.lc-qr-code-img):not(button):not(svg):not(path),
+[id^="pdf-page-"] *:not(.lc-document-title-header):not(.truck-challan-title):not(.lc-company-logo-img):not(.lc-qr-code-img):not(button):not(svg):not(path) {
+  font-size: 10pt !important;
+}
+
+.truck-challan-title {
+  font-size: 24pt !important;
+  font-weight: 900 !important;
+  white-space: nowrap !important;
+  letter-spacing: -0.04em !important;
+}
+
+/* Table heading is 10pt and content inside is 9pt as explicitly requested: */
+[id^="lc-print-sheet-"] table th,
+[id^="lc-print-sheet-"] table th *,
+[id^="pdf-page-"] table th,
+[id^="pdf-page-"] table th * {
+  font-size: 10pt !important;
+  font-weight: 700 !important;
+}
+
+[id^="lc-print-sheet-"] table td,
+[id^="lc-print-sheet-"] table td *,
+[id^="pdf-page-"] table td,
+[id^="pdf-page-"] table td * {
+  font-size: 9pt !important;
+}
+
+/* Force table & box borders to be 0.65pt solid 45% Black (rgba(0,0,0,0.45)) */
+[id^="lc-print-sheet-"] table,
+[id^="lc-print-sheet-"] th,
+[id^="lc-print-sheet-"] td,
+[id^="pdf-page-"] table,
+[id^="pdf-page-"] th,
+[id^="pdf-page-"] td {
+  border: 0.65pt solid rgba(0, 0, 0, 0.45) !important;
+  border-collapse: collapse !important;
+}
+
+[id^="lc-print-sheet-"] .border,
+[id^="pdf-page-"] .border {
+  border: 0.65pt solid rgba(0, 0, 0, 0.45) !important;
+}
+[id^="lc-print-sheet-"] .border-t,
+[id^="pdf-page-"] .border-t {
+  border-top: 0.65pt solid rgba(0, 0, 0, 0.45) !important;
+}
+[id^="lc-print-sheet-"] .border-b,
+[id^="pdf-page-"] .border-b {
+  border-bottom: 0.65pt solid rgba(0, 0, 0, 0.45) !important;
+}
+[id^="lc-print-sheet-"] .border-l,
+[id^="pdf-page-"] .border-l {
+  border-left: 0.65pt solid rgba(0, 0, 0, 0.45) !important;
+}
+[id^="lc-print-sheet-"] .border-r,
+[id^="pdf-page-"] .border-r {
+  border-right: 0.65pt solid rgba(0, 0, 0, 0.45) !important;
+}
+
+/* Print Specific Rules safely mapped to allow black and white printable blocks */
+@media print {
+  /* Use the high-fidelity visibility print trick to hide everything except our target A4 sheets */
+  body * {
+    visibility: hidden;
+  }
+  
+  #proforma-invoice-print-sheet, 
+  #proforma-invoice-print-sheet *,
+  #delivery-challan-print-sheet,
+  #delivery-challan-print-sheet *,
+  #printable-wo-sheet,
+  #printable-wo-sheet *,
+  #printable-payment-slip,
+  #printable-payment-slip *,
+  #supplier-outstanding-due-report-print,
+  #supplier-outstanding-due-report-print *,
+  #conveyance-statement-print,
+  #conveyance-statement-print *,
+  #gate-pass-print-sheet,
+  #gate-pass-print-sheet *,
+  #payslip-print-sheet,
+  #payslip-print-sheet *,
+  #job-card-print-sheet,
+  #job-card-print-sheet *,
+  #party-ledger-print-sheet,
+  #party-ledger-print-sheet *,
+  #commercial-invoice-print-sheet,
+  #commercial-invoice-print-sheet *,
+  #packing-list-print-sheet,
+  #packing-list-print-sheet *,
+  #supplier-wise-statement-print-sheet,
+  #supplier-wise-statement-print-sheet *,
+  #buyer-payment-slip-print-sheet,
+  #buyer-payment-slip-print-sheet *,
+  [id^="lc-print-sheet-"],
+  [id^="lc-print-sheet-"] * {
+    visibility: visible;
+  }
+  
+  /* Place the target sheets at the absolute top-left of the print canvas */
+  #proforma-invoice-print-sheet,
+  #delivery-challan-print-sheet,
+  #printable-wo-sheet,
+  #printable-payment-slip,
+  #supplier-outstanding-due-report-print,
+  #conveyance-statement-print,
+  #gate-pass-print-sheet,
+  #payslip-print-sheet,
+  #job-card-print-sheet,
+  #party-ledger-print-sheet,
+  #commercial-invoice-print-sheet,
+  #packing-list-print-sheet,
+  #supplier-wise-statement-print-sheet,
+  #buyer-payment-slip-print-sheet,
+  [id^="lc-print-sheet-"] {
+    display: block !important;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background-color: #ffffff !important;
+  }
+
+  /* Optimize print dimensions for high density enterprise documents */
+  @page {
+    size: A4 portrait;
+    margin: 12mm 15mm;
+  }
+}
+
+/* ==========================================
+   Dark Mode Eye-Safe Custom Refinements
+   ========================================== */
+html.dark, html.dark body {
+  background-color: #0b0f19 !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark main {
+  background-color: #070a13 !important;
+}
+
+html.dark header, html.dark aside {
+  background-color: #0f172a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark aside a, html.dark aside button, html.dark header button, html.dark header span {
+  color: #94a3b8 !important;
+}
+
+html.dark aside a:hover, html.dark aside button:hover {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+html.dark aside .active-tab-nav {
+  background-color: #007d46 !important;
+  color: #ffffff !important;
+}
+
+html.dark div.bg-white, html.dark div.bg-slate-50, html.dark div.bg-neutral-50, html.dark div.bg-slate-50\/50, html.dark div.bg-slate-100 {
+  background-color: #111827 !important;
+  color: #cbd5e1 !important;
+  border-color: #374151 !important;
+}
+
+html.dark select, html.dark input, html.dark textarea {
+  background-color: #1f2937 !important;
+  color: #ffffff !important;
+  border-color: #4b5563 !important;
+}
+
+html.dark span.text-slate-900, html.dark h1, html.dark h2, html.dark h3, html.dark h4, html.dark h5, html.dark h6 {
+  color: #ffffff !important;
+}
+
+html.dark td, html.dark th {
+  border-color: #27272a !important;
+  color: #cbd5e1 !important;
+}
+
+html.dark tr:hover {
+  background-color: #1f2937 !important;
+}
+
+html.dark p, html.dark span, html.dark label {
+  color: #cbd5e1 !important;
+}
+
+html.dark .text-slate-700, html.dark .text-neutral-700, html.dark .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+html.dark .text-slate-550, html.dark .text-slate-500, html.dark .text-neutral-500, html.dark .text-slate-400 {
+  color: #9ca3af !important;
+}
+
+html.dark .bg-emerald-50, html.dark .bg-emerald-50\/50 {
+  background-color: #064e3b !important;
+  color: #a7f3d0 !important;
+}
+
+html.dark .border-slate-200, html.dark .border-slate-250, html.dark .border-slate-300, html.dark .border-neutral-200 {
+  border-color: #374151 !important;
+}
+
+html.dark .shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5) !important;
+}
+
+html.dark .bg-[#f1f5f9], html.dark .bg-slate-50 {
+  background-color: #070a13 !important;
+}
+
+/* ==========================================
+   Public Website Dark Mode Override Rules
+   ========================================== */
+.website-dark-mode {
+  background-color: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+.website-dark-mode h1,
+.website-dark-mode h2,
+.website-dark-mode h3,
+.website-dark-mode h4,
+.website-dark-mode h5,
+.website-dark-mode h6 {
+  color: #ffffff !important;
+}
+
+.website-dark-mode div.bg-white,
+.website-dark-mode section.bg-white {
+  background-color: #1e293b !important;
+  color: #cbd5e1 !important;
+  border-color: #334155 !important;
+}
+
+.website-dark-mode div.bg-slate-50,
+.website-dark-mode section.bg-slate-50 {
+  background-color: #0f172a !important;
+  color: #cbd5e1 !important;
+  border-color: #334155 !important;
+}
+
+.website-dark-mode div.bg-slate-50\/50 {
+  background-color: #151f32 !important;
+}
+
+.website-dark-mode div.bg-slate-100 {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+.website-dark-mode .text-slate-900 {
+  color: #ffffff !important;
+}
+
+.website-dark-mode .text-slate-800 {
+  color: #cbd5e1 !important;
+}
+
+.website-dark-mode .text-slate-700 {
+  color: #cbd5e1 !important;
+}
+
+.website-dark-mode .text-slate-650,
+.website-dark-mode .text-slate-600,
+.website-dark-mode .text-slate-550,
+.website-dark-mode .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+.website-dark-mode .border-slate-100,
+.website-dark-mode .border-slate-150,
+.website-dark-mode .border-slate-200 {
+  border-color: #334155 !important;
+}
+
+.website-dark-mode .border-b {
+  border-bottom-color: #334155 !important;
+}
+
+.website-dark-mode input,
+.website-dark-mode textarea,
+.website-dark-mode select {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+  border-color: #334155 !important;
+}
+
+.website-dark-mode button.bg-white {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+  border-color: #334155 !important;
+}
+
+.website-dark-mode button.bg-slate-50 {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+}
+
+.website-dark-mode .bg-slate-50\/50 {
+  background-color: #151f32 !important;
+}
+
+/* ==========================================
+   Text Selection Color Styling Fixes
+   ========================================== */
+::selection {
+  background-color: #a7f3d0 !important; /* light green highlight */
+  color: #064e3b !important; /* dark green text */
+}
+
+.dark ::selection,
+.website-dark-mode ::selection,
+.bg-slate-900 ::selection,
+.bg-slate-950 ::selection {
+  background-color: #047857 !important; /* emerald selection */
+  color: #ffffff !important;
+}
+
+/* Specific styling for the code editor textarea */
+textarea.bg-slate-900::selection,
+.bg-slate-900 textarea::selection {
+  background-color: #047857 !important;
+  color: #ffffff !important;
+}
+
+/* Custom HTML Page overrides in Dark Mode */
+.website-dark-mode .custom-html-output,
+.website-dark-mode .custom-preview-wrapper {
+  color: #e2e8f0 !important;
+}
+
+.website-dark-mode .custom-html-output div.bg-white,
+.website-dark-mode .custom-html-output section.bg-white,
+.website-dark-mode .custom-html-output .bg-white,
+.website-dark-mode .custom-preview-wrapper div.bg-white,
+.website-dark-mode .custom-preview-wrapper section.bg-white,
+.website-dark-mode .custom-preview-wrapper .bg-white {
+  background-color: #1e293b !important;
+  color: #cbd5e1 !important;
+  border-color: #334155 !important;
+}
+
+.website-dark-mode .custom-html-output div.bg-slate-50,
+.website-dark-mode .custom-html-output section.bg-slate-50,
+.website-dark-mode .custom-html-output .bg-slate-50,
+.website-dark-mode .custom-preview-wrapper div.bg-slate-50,
+.website-dark-mode .custom-preview-wrapper section.bg-slate-50,
+.website-dark-mode .custom-preview-wrapper .bg-slate-50 {
+  background-color: #0f172a !important;
+  color: #cbd5e1 !important;
+  border-color: #334155 !important;
+}
+
+.website-dark-mode .custom-html-output .text-slate-900,
+.website-dark-mode .custom-preview-wrapper .text-slate-900 {
+  color: #ffffff !important;
+}
+
+.website-dark-mode .custom-html-output .text-slate-800,
+.website-dark-mode .custom-preview-wrapper .text-slate-800 {
+  color: #cbd5e1 !important;
+}
+
+.website-dark-mode .custom-html-output .text-slate-700,
+.website-dark-mode .custom-preview-wrapper .text-slate-700 {
+  color: #cbd5e1 !important;
+}
+
+.website-dark-mode .custom-html-output .text-slate-600,
+.website-dark-mode .custom-html-output .text-slate-550,
+.website-dark-mode .custom-html-output .text-slate-500,
+.website-dark-mode .custom-preview-wrapper .text-slate-600,
+.website-dark-mode .custom-preview-wrapper .text-slate-550,
+.website-dark-mode .custom-preview-wrapper .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+.website-dark-mode .custom-html-output h1,
+.website-dark-mode .custom-html-output h2,
+.website-dark-mode .custom-html-output h3,
+.website-dark-mode .custom-html-output h4,
+.website-dark-mode .custom-preview-wrapper h1,
+.website-dark-mode .custom-preview-wrapper h2,
+.website-dark-mode .custom-preview-wrapper h3,
+.website-dark-mode .custom-preview-wrapper h4 {
+  color: #ffffff !important;
+}
+
+.website-dark-mode .custom-html-output .border-slate-200,
+.website-dark-mode .custom-preview-wrapper .border-slate-200 {
+  border-color: #334155 !important;
+}
+
+
+
